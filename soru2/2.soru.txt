@@ -1,0 +1,54 @@
+#include <stdio.h>
+// Kabarcık sıralama algoritması ile dizi sıralama işlemi
+void kabarcikSiralama(int arr[], int n) {
+    int i, j;
+    for (i = 0; i < n - 1; i++) {
+        for (j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+		// Elemanlar yer değiştiriliyor
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+// İkili arama algoritması ile aranan elemanı bulma işlemi
+int ikiliArama(int arr[], int min, int max, int aranan) {
+    if (min <= max) {
+        int orta = min + (max - min) / 2;
+
+        if (arr[orta] == aranan) {
+            return orta;
+        }
+
+        if (arr[orta] > aranan) {
+       // Aranan eleman solda aranıyor
+            return ikiliArama(arr, min, orta - 1, aranan);
+        } else {
+	// Aranan eleman sağda aranıyor
+            return ikiliArama(arr, orta + 1, max, aranan);
+        }
+    }
+
+    return -1;  // Aranan eleman dizide bulunamadı
+}
+
+int main() {
+    int dizi[] = {4, 8, 3, 84, 47, 76, 9, 24, 68};
+    int n = sizeof(dizi) / sizeof(dizi[0]);
+
+    // Diziyi sırala
+    kabarcikSiralama(dizi, n);
+
+    int arananEleman = 76;
+    int sonuc = ikiliArama(dizi, 0, n - 1, arananEleman);
+
+    if (sonuc == -1) {
+        printf("Aranan eleman dizide bulunamadı.\n");
+    } else {
+        printf("Aranan eleman %d indisinde bulundu.\n", sonuc);
+    }
+
+    return 0;
+}
